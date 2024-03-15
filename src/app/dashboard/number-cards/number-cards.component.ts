@@ -9,7 +9,6 @@ import { Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [NgxChartsModule],
   templateUrl: './number-cards.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NumberCardsComponent extends ChartBaseComponent implements OnInit { 
   constructor(private dashboardService: DashboardService) {
@@ -23,14 +22,18 @@ export class NumberCardsComponent extends ChartBaseComponent implements OnInit {
   avgRaidsPerDay: number;
   highestRaidsInDay: string;
   databaseStats$ = this.dashboardService.dbStatsResult$;
-
+  selectedColor = this.dashboardService.selectedColorScheme;
+  selectedScheme: string;
   ngOnInit(): void {
+    this.dashboardService.selectedScheme$.pipe(takeUntil(this.destroy$)).subscribe((scheme) => {
+      this.selectedScheme = scheme;
+    } );
     this.dashboardService.dbStatsResult$.pipe(takeUntil(this.destroy$)).subscribe((result) => {
       this.totalRaids = result[0].total_raids;
       this.totalPlayers = result[0].total_players;
       this.avgRaidsPerDay = result[0].avg_raids_day;
       const oldestRaidVar = new Date(result[0].oldest_raid_date);
-      this.oldestRaid = this.formatDateFromUnixTimestamp(oldestRaidVar.getDate());
+      this.oldestRaid = this.formatDateFromUnixTimestamp(oldestRaidVar.getTime()) ?? '';
       this.calculateChartData();
       
   });
@@ -59,7 +62,7 @@ calculateChartData() {
 
 formatDateFromUnixTimestamp(timestamp: number): string {
   // Convert Unix timestamp to milliseconds
-  const unixTimestampMilliseconds = timestamp * 1000;
+  const unixTimestampMilliseconds = timestamp;
   // Create a new Date object from the Unix timestamp
   const date = new Date(unixTimestampMilliseconds);
   const monthNames = [

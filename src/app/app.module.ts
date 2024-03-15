@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -20,7 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 import { HttpClientModule } from '@angular/common/http';
 
 import { MatRippleModule } from '@angular/material/core';
@@ -31,13 +30,10 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { PlayerDialogComponent } from './player/player-dialog/player-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTableResponsiveModule } from './shared/directives/mat-table-responsive/mat-table-responsive.module';
 import { DatePipe } from '@angular/common';
 import { StatsTableComponent } from './player/stats-table/stats-table.component';
 import { SharedModule } from './shared/shared.module';
-import { ColorSchemeSelectorComponent } from "./dashboard/color-scheme-selector.component";
-import { NumberCardsComponent } from "./dashboard/number-cards/number-cards.component";
+import { DashboardModule } from './dashboard/dashboard.module';
 
 /* export function initData(playerDataInit: PlayerDataInitService) {
   return () => {
@@ -49,7 +45,6 @@ import { NumberCardsComponent } from "./dashboard/number-cards/number-cards.comp
     declarations: [
         AppComponent,
         MainComponent,
-        DashboardComponent,
         PlayerDialogComponent,
         StatsTableComponent
     ],
@@ -64,14 +59,14 @@ import { NumberCardsComponent } from "./dashboard/number-cards/number-cards.comp
         MatSidenavModule,
         MatIconModule,
         MatListModule,
-        MatCardModule,
+       MatCardModule,
         MatMenuModule,
         MatInputModule,
         MatSelectModule,
         ReactiveFormsModule,
         FormsModule,
-        MatDividerModule,
-        MatProgressBarModule,
+        
+        
         HttpClientModule,
         MatTableModule,
         MatRippleModule,
@@ -80,12 +75,11 @@ import { NumberCardsComponent } from "./dashboard/number-cards/number-cards.comp
         MatDialogModule,
         MatProgressSpinnerModule,
         NgxChartsModule,
-        MatSlideToggleModule,
-        MatTableResponsiveModule,
+     
+       
         SharedModule,
         DatePipe,
-        ColorSchemeSelectorComponent,
-        NumberCardsComponent
+        DashboardModule
     ]
 })
 export class AppModule { }

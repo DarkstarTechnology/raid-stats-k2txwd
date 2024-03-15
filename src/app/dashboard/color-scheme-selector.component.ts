@@ -1,45 +1,40 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { NgIf, KeyValuePipe, NgFor, NgForOf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import { ColorScheme, ColorSchemeMapping } from '../shared/interfaces';
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-color-scheme-selector',
   standalone: true,
   imports: [
-    NgIf,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
+    FormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, KeyValuePipe, NgForOf
   ],
   template: `<mat-form-field appearance="fill">
   <mat-label>Choose a Color Scheme</mat-label>
-  <select matNativeControl [formControl]="colorSchemeControl">
-    <option *ngFor="let scheme of colorSchemes" [value]="scheme">{{ scheme }}</option>
+  <select matNativeControl (change)="onSelected($event)" [(ngModel)]="selectedColorScheme">
+    <option *ngFor="let scheme of schemeOptions" [value]="scheme">{{ scheme }}</option>
   </select>
-</mat-form-field>`,
-  styles: [`
-    :host {
-      display: block;
-    }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+</mat-form-field>`
+  
+  
 })
 export class ColorSchemeSelectorComponent {
-  @Input() scheme: string = '';
-  @Output() schemeChange = new EventEmitter<string>();
-  colorSchemeControl = new FormControl('');
-  colorSchemes: string[] = [
-    'vivid', 'natural', 'cool', 'fire', 'solar',
-    'air', 'aqua', 'flame', 'ocean', 'forest',
-    'horizon', 'neons', 'picnic', 'night', 'nightLights'
-  ];
+  selectedColorScheme: any;
+  public schemeOptions = ['air', 'aqua', 'fire', 'earth'];
+  public ColorSchemeMapping = ColorSchemeMapping;
+  private dashboardService = inject(DashboardService);
+  
+  onSelected(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.dashboardService.colorSchemeSelected(selectedValue);
+  }
 
-  constructor() {
-    this.colorSchemeControl.valueChanges.subscribe(value => {
-      this.scheme = value;
-      this.schemeChange.emit(this.scheme);
-    });
+  enumToArray(enumObject): string[] {
+    return Object.keys(enumObject)
+      .map(key => enumObject[key]);
   }
 }

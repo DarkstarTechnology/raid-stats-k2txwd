@@ -8,12 +8,7 @@ import { DashboardService } from '../dashboard.service';
   standalone: true,
   imports: [NgxChartsModule],
   templateUrl: './alliance-kills.component.html',
-  styles: [`
-    :host {
-      display: block;
-    }
-  `],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+ 
 })
 export class AllianceKillsComponent extends ChartBaseComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {

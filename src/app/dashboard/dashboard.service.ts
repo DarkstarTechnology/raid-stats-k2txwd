@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { catchError, map, of, shareReplay, ReplaySubject, tap, groupBy, mergeMap, reduce } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { catchError, map, of, shareReplay, ReplaySubject, tap, groupBy, mergeMap, reduce, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorService } from '../utils/http-error.service';
 import { endpoints } from '../shared/endpoints';
-import { DataStats, ChartSeries, Result, PeakRaidHoursAlliance, Kvp } from '../shared/interfaces';
+import { DataStats, ChartSeries, Result, PeakRaidHoursAlliance, Kvp, ColorScheme } from '../shared/interfaces';
 
 
 
@@ -13,8 +13,15 @@ import { DataStats, ChartSeries, Result, PeakRaidHoursAlliance, Kvp } from '../s
 })
 export class DashboardService {
   raidsByDay: any;
-
-  constructor(private http: HttpClient, private errorService: HttpErrorService) {
+  selectedScheme$ = new BehaviorSubject<string>('aqua');
+  selectedColorScheme = signal<string>('aqua');
+  peakRaidHoursAlliance = signal<PeakRaidHoursAlliance[] | undefined>(undefined);
+  private http = inject(HttpClient);
+  private errorService = inject(HttpErrorService);
+  
+  colorSchemeSelected(colorScheme: string) {
+    this.selectedColorScheme.set(colorScheme);
+    this.selectedScheme$.next(colorScheme);
   }
 
   dailyAllianceStatsResult$ = this.http.get<ChartSeries[]>(endpoints.ALLIANCE_DAILY_URL)

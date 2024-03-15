@@ -242,3 +242,39 @@ export interface StatsApi {
     total_count: number;
     error?: string;
 }
+
+export enum ColorScheme {
+  VIVID = 'vivid',
+  NATURAL = 'natural',
+  COOL = 'cool',
+  FIRE = 'fire',
+  SOLAR = 'solar',
+  AIR = 'air',
+  AQUA = 'aqua',
+  FLAME = 'flame',
+  OCEAN = 'ocean',
+  FOREST = 'forest',
+  HORIZON = 'horizon',
+  NEONS = 'neons',
+  PICNIC = 'picnic',
+  NIGHT = 'night',
+  NIGHTLIGHTS = 'nightLights'
+}
+
+export const ColorSchemeMapping: Record<ColorScheme, string> = {
+  [ColorScheme.VIVID]: 'vivid',
+  [ColorScheme.NATURAL]: 'natural',
+  [ColorScheme.COOL]: 'cool',
+  [ColorScheme.FIRE]: 'fire',
+  [ColorScheme.SOLAR]: 'solar',
+  [ColorScheme.AIR]: 'air',
+  [ColorScheme.AQUA]: 'aqua',
+  [ColorScheme.FLAME]: 'flame',
+  [ColorScheme.OCEAN]: 'ocean',
+  [ColorScheme.FOREST]: 'forest',
+  [ColorScheme.HORIZON]: 'horizon',
+  [ColorScheme.NEONS]: 'neons',
+  [ColorScheme.PICNIC]: 'picnic',
+  [ColorScheme.NIGHT]: 'night',
+  [ColorScheme.NIGHTLIGHTS]: 'nightLights'
+};
