@@ -14,9 +14,16 @@ import { takeUntil } from 'rxjs';
 export class PeakAllianceHoursComponent extends ChartBaseComponent implements OnInit{ 
   
   private dashboardService = inject(DashboardService);
-
+  //xAxisTicks: any[] = ['00:00-06:00', '06:00-12:00', '12:00-18:00', '18:00-24:00'];
   peakAllianceHours = this.dashboardService.peakRaidHoursAlliance;
   scheme: string;
+  showXAxis = true;
+  showYAxis = true;
+
+  xAxisTickFormatting = (value) => {
+    const rtn =  this.dashboardService.xAxisMap[value];
+    return rtn;
+  };
   constructor() {
     super();
   }

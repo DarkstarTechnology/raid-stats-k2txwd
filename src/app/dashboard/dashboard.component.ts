@@ -23,6 +23,14 @@ throw new Error('Method not implemented.');
         this.unsubscribe$.complete();
     }
 
+    peakAllianceChart = {
+        showXAxisLabel: true,
+        showYAxisLabel: true,
+        xAxisTitle: 'Time of Day',
+        yAxisTitle: 'Number of Raids',
+        legendTitle: 'Alliance',
+        LegendPosition: LegendPosition.Right
+    }
     
 
     onSelect(event) {

@@ -3,21 +3,32 @@
   <mat-card class="dashboard-card">
     <mat-card-header>
       <mat-card-title> Database </mat-card-title>
-      
+
     </mat-card-header>
-    
+
     <mat-card-content class="dashboard-card-content">
       <app-color-scheme-selector (colorSchemeChange)="onColorSchemeChange($event)"></app-color-scheme-selector>
       <app-number-cards [colorScheme]="colorScheme"></app-number-cards>
       <div class="spacer"></div>
       <mat-divider></mat-divider>
       <app-alliance-kills [colorScheme]="colorScheme"></app-alliance-kills>
+      <div class="spacer"></div>
       <mat-divider></mat-divider>
-      <app-peak-alliance-hours [colorScheme]="colorScheme"></app-peak-alliance-hours>
+      <app-peak-alliance-hours 
+        [showLegend]="true"
+        [xAxisLabel]="peakAllianceChart.xAxisTitle"
+        [yAxisLabel]="peakAllianceChart.yAxisTitle"
+        [legendTitle]="peakAllianceChart.legendTitle"
+        [showXAxisLabel]="peakAllianceChart.showXAxisLabel"
+        [showYAxisLabel]="peakAllianceChart.showYAxisLabel"
+        [colorScheme]="colorScheme">
+      </app-peak-alliance-hours>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button appNavigate="/processor">Processor</button>
-      <button mat-button appNavigate="/player">Players</button>
+      <button mat-button
+              appNavigate="/processor">Processor</button>
+      <button mat-button
+              appNavigate="/player">Players</button>
     </mat-card-actions>
   </mat-card>
 </div>

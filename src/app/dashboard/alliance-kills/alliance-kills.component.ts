@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ChartBaseComponent } from '../chart-base/chart-base.component';
 import { LegendPosition, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { DashboardService } from '../dashboard.service';
+import * as d3 from 'd3';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-alliance-kills',
@@ -27,13 +29,17 @@ export class AllianceKillsComponent extends ChartBaseComponent implements OnInit
   override schemeType: ScaleType = ScaleType.Ordinal;
 
   lineChartView: [number, number] = [700, 300];
+  curve = d3.curveCatmullRom;
 
-  lineScheme = 'vivid';
+  scheme: string = 'vivid';
   roundDomains = true;
+  shortDate = new Intl.DateTimeFormat("en", {
+    dateStyle: "short"
+  }as Intl.DateTimeFormatOptions) ;
   xAxisTickFormatting = (value) => {
     const date = new Date(value);
-    const options = { year: '2-digit', month: 'short', day: '2-digit' } as Intl.DateTimeFormatOptions;
-    const shortUTCDate = date.toLocaleDateString('en-US', options);
+    
+    const shortUTCDate = this.shortDate.format(date);
     return shortUTCDate;
   };
   ngOnInit(): void {
@@ -41,8 +47,9 @@ export class AllianceKillsComponent extends ChartBaseComponent implements OnInit
       this.lineChartData = result.data;
       
   });
+  this.dashboardService.selectedScheme$.pipe(takeUntil(this.destroy$)).subscribe((scheme) => {
+    this.scheme = scheme;
+  } );
+
   }
-
-
-
 }

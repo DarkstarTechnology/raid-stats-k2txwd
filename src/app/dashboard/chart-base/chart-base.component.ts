@@ -15,17 +15,20 @@ export class ChartBaseComponent implements OnDestroy {
   @Input() legendTitle: string = '';
   @Input() colorScheme: string = '';
   @Input() showLegend: boolean = false;
+  @Input() legendPosition: LegendPosition = LegendPosition.Below;
+  @Input() showYAxisLabel: boolean = false;
+  @Input() showXAxisLabel: boolean = false;
+  @Input() xAxis: boolean = true;
+  @Input() yAxis: boolean = true;
   protected destroy$ = new Subject<void>();
+  
   chartData: any[];
     
     legend: boolean = true;
-    legendPosition: LegendPosition = LegendPosition.Right;
     showLabels: boolean = true;
     animations: boolean = true;
-    xAxis: boolean = true;
-    yAxis: boolean = true;
-    showYAxisLabel: boolean = false;
-    showXAxisLabel: boolean = false;
+    
+    
     showGridLines = false;
     gradient: boolean = true;
     schemeType: ScaleType = ScaleType.Ordinal;
@@ -36,6 +39,8 @@ export class ChartBaseComponent implements OnDestroy {
      
         cardColor: string = '#20262d';
         xScaleMin: any;
+
+  
 
   ngOnDestroy() {
     this.destroy$.next();
