@@ -69,10 +69,10 @@
           
           "configurations": {
             "production": {
-              "browserTarget": "raid-stats:build:production"
+              "buildTarget": "raid-stats:build:production"
             },
             "development": {
-              "browserTarget": "raid-stats:build:development"
+              "buildTarget": "raid-stats:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "raid-stats:build"
+            "buildTarget": "raid-stats:build"
           }
         },
         "test": {
