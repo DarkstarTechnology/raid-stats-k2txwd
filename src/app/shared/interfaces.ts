@@ -31,42 +31,31 @@ export interface DailyAllianceStats {
   race_group: string | null;
   kills: number | null;
 }
-export interface DailyAllianceStatsInput {
-  raid_day?: Date | null;
-  race_group?: string | null;
-  kills?: number | null;
-}
+
 const daily_alliance_stats = {
   tableName: 'daily_alliance_stats',
   columns: ['raid_day', 'race_group', 'kills'],
   requiredForInsert: [],
   primaryKey: null,
   foreignKeys: {},
-  $type: null as unknown as DailyAllianceStats,
-  $input: null as unknown as DailyAllianceStatsInput
+  $type: null as unknown as DailyAllianceStats
 } as const;
 
 // Table db_stats
-export interface DbStats {
+export interface DataStats {
   avg_raids_day: number | null;
   oldest_raid_date: Date | null;
   total_raids: number | null;
   total_players: number | null;
 }
-export interface DbStatsInput {
-  avg_raids_day?: number | null;
-  oldest_raid_date?: Date | null;
-  total_raids?: number | null;
-  total_players?: number | null;
-}
+
 const db_stats = {
-  tableName: 'db_stats',
+  tableName: 'data_stats',
   columns: ['avg_raids_day', 'oldest_raid_date', 'total_raids', 'total_players'],
   requiredForInsert: [],
   primaryKey: null,
   foreignKeys: {},
-  $type: null as unknown as DbStats,
-  $input: null as unknown as DbStatsInput
+  $type: null as unknown as DataStats
 } as const;
 
 // Table peak_raid_hours
@@ -74,18 +63,29 @@ export interface PeakRaidHours {
   time_window: string | null;
   raid_count: number | null;
 }
-export interface PeakRaidHoursInput {
-  time_window?: string | null;
-  raid_count?: number | null;
-}
+
 const peak_raid_hours = {
   tableName: 'peak_raid_hours',
   columns: ['time_window', 'raid_count'],
   requiredForInsert: [],
   primaryKey: null,
   foreignKeys: {},
-  $type: null as unknown as PeakRaidHours,
-  $input: null as unknown as PeakRaidHoursInput
+  $type: null as unknown as PeakRaidHours
+} as const;
+
+// Table peak_raid_hours_alliance
+export interface PeakRaidHoursAlliance {
+  time_window: string | null;
+  race_group: string | null;
+  peak_avg_raids: number | null;
+}
+const peak_raid_hours_alliance = {
+  tableName: 'peak_raid_hours_alliance',
+  columns: ['time_window', 'race_group', 'peak_avg_raids'],
+  requiredForInsert: [],
+  primaryKey: null,
+  foreignKeys: {},
+  $type: null as unknown as PeakRaidHoursAlliance
 } as const;
 
 // Table player_in_raid
@@ -126,24 +126,14 @@ export interface PlayerStats {
   snipe_attempts: number | null;
   total_raids: number | null;
 }
-export interface PlayerStatsInput {
-  name?: string | null;
-  race?: race | null;
-  avg_time?: number | null;
-  avg_position?: number | null;
-  participation?: number | null;
-  snipe_ratio?: number | null;
-  snipe_attempts?: number | null;
-  total_raids?: number | null;
-}
+
 const player_stats = {
   tableName: 'player_stats',
   columns: ['name', 'race', 'avg_time', 'avg_position', 'participation', 'snipe_ratio', 'snipe_attempts', 'total_raids'],
   requiredForInsert: [],
   primaryKey: null,
   foreignKeys: {},
-  $type: null as unknown as PlayerStats,
-  $input: null as unknown as PlayerStatsInput
+  $type: null as unknown as PlayerStats
 } as const;
 
 // Table raid
@@ -179,15 +169,15 @@ export interface TableTypes {
   };
   daily_alliance_stats: {
     select: DailyAllianceStats;
-    input: DailyAllianceStatsInput;
   };
-  db_stats: {
-    select: DbStats;
-    input: DbStatsInput;
+  data_stats: {
+    select: DataStats;
   };
   peak_raid_hours: {
     select: PeakRaidHours;
-    input: PeakRaidHoursInput;
+  };
+  peak_raid_hours_alliance: {
+    select: PeakRaidHoursAlliance;
   };
   player_in_raid: {
     select: PlayerInRaid;
@@ -195,7 +185,6 @@ export interface TableTypes {
   };
   player_stats: {
     select: PlayerStats;
-    input: PlayerStatsInput;
   };
   raid: {
     select: Raid;
@@ -208,19 +197,20 @@ export const tables = {
   daily_alliance_stats,
   db_stats,
   peak_raid_hours,
+  peak_raid_hours_alliance,
   player_in_raid,
   player_stats,
   raid,
 }
 
-export interface LineChartSeries {
+export interface ChartSeries {
     name: string;
     series: Kvp[];
 }
 
-interface Kvp {
+export interface Kvp {
     name: string;
-    value: string;
+    value: number;
 }
 
 export interface NavItem {

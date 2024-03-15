@@ -11,75 +11,13 @@ import { Raid } from '../shared/interfaces';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent  {
+colorScheme: string;
+onColorSchemeChange($event: Event) {
+throw new Error('Method not implemented.');
+}
     private unsubscribe$ = new Subject<void>();
-    raids: Raid[] = [];
-    oldestRaid: string;
-
-    totalRaids: number;
-    totalPlayers: number;
-    avgRaidsPerDay: number;
-    highestRaidsInDay: string;
-    cards: any; // Update with the correct type
-    isLoading = true;
-    chartData: any[];
-    view: [number, number] = [350, 350];
-    // options
-    lineChartData: any[];
-    legend: boolean = true;
-    legendPosition: LegendPosition = LegendPosition.Below;
-    legendTitle: any = 'Alliances';
-    showLabels: boolean = true;
-    animations: boolean = true;
-    xAxis: boolean = true;
-    yAxis: boolean = true;
-    showYAxisLabel: boolean = false;
-    showXAxisLabel: boolean = false;
-    showGridLines = false;
-    yScaleMin: number = 5;
-    schemeType: ScaleType = ScaleType.Ordinal;
-    xAxisTickCount: number = 5;
-    xAxisLabel: string = 'Day';
-    yAxisLabel: string = 'Raids';
-    timeline: boolean = false;
-    lineChartView: [number, number] = [700, 300];
-    colorScheme = 'aqua';
-        lineScheme = 'vivid';
-        roundDomains = true;
-        xAxisTickFormatting = (value) => {
-                const date = new Date(value);
-                const options = { year: '2-digit', month: 'short', day: '2-digit' } as Intl.DateTimeFormatOptions;
-                const shortUTCDate = date.toLocaleDateString('en-US', options);
-                return shortUTCDate;
-        };
-        /* colorScheme = {
-        domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-    }; */
-        cardColor: string = '#20262d';
-        xScaleMin: any;
-
-    constructor(
-        private dashboardService: DashboardService,
-        private router: Router
-        
-    ) {}
-
-    ngOnInit() {
-        //exportIndexedDB('RaidDatabase');
-       this.dashboardService.dailyAllianceStatsResult$.subscribe((result) => {
-            this.lineChartData = result.data;
-            
-        });
-        this.dashboardService.dbStatsResult$.subscribe((result) => {
-            this.totalRaids = result.total_raids;
-            this.totalPlayers = result.total_players;
-            this.avgRaidsPerDay = result.avg_raids_day ?? 0;
-            this.oldestRaid = result.oldest_raid_date ? this.formatDateFromUnixTimestamp(result.oldest_raid_date.getDate()) : 'N/A';
-            this.calculateChartData();
-            this.isLoading = false;
-        });
-    }
-
+   
     ngOnDestroy() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
@@ -100,26 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     
 
-    calculateChartData() {
-        this.chartData = [
-            {
-                name: 'Total Raids',
-                value: this.totalRaids,
-            },
-            {
-                name: 'Oldest Raid',
-                value: this.oldestRaid,
-            },
-            {
-                name: 'Daily Avg',
-                value: this.avgRaidsPerDay.toFixed(2),
-            },
-            {
-                name: 'Total Players',
-                value: this.totalPlayers,
-            },
-        ];
-    }
+    
 
     groupByDay(objects: Raid[]): Record<string, Raid[]> {
         return objects.reduce((acc, obj) => {
@@ -138,30 +57,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }, {} as Record<string, Raid[]>);
     }
 
-    formatDateFromUnixTimestamp(timestamp: number): string {
-        // Convert Unix timestamp to milliseconds
-        const unixTimestampMilliseconds = timestamp * 1000;
-        // Create a new Date object from the Unix timestamp
-        const date = new Date(unixTimestampMilliseconds);
-        const monthNames = [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
-        ];
-        const day = date.getDate();
-        const monthIndex = date.getMonth();
-        const monthName = monthNames[monthIndex];
-        return `${day}.${monthName}`;
-    }
+    
 
     groupRaidsByDay(objects: Raid[]): Record<string, Raid[]> {
         return objects.reduce((acc, obj) => {

@@ -36,6 +36,8 @@ import { MatTableResponsiveModule } from './shared/directives/mat-table-responsi
 import { DatePipe } from '@angular/common';
 import { StatsTableComponent } from './player/stats-table/stats-table.component';
 import { SharedModule } from './shared/shared.module';
+import { ColorSchemeSelectorComponent } from "./dashboard/color-scheme-selector.component";
+import { NumberCardsComponent } from "./dashboard/number-cards/number-cards.component";
 
 /* export function initData(playerDataInit: PlayerDataInitService) {
   return () => {
@@ -44,54 +46,46 @@ import { SharedModule } from './shared/shared.module';
 } */
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainComponent,
-    DashboardComponent,
-  
-    PlayerDialogComponent,
-    StatsTableComponent
-
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-   
-    MatCardModule,
-    MatMenuModule,
-    MatInputModule,
-    MatSelectModule,
-   
-    ReactiveFormsModule,
-  
-    
-    FormsModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    HttpClientModule,
-    
-    MatTableModule,
-    MatRippleModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    NgxChartsModule,
-    MatSlideToggleModule,
-    MatTableResponsiveModule,
-    SharedModule,
-   
-    DatePipe
-  ],
-  providers: [
-    
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        MainComponent,
+        DashboardComponent,
+        PlayerDialogComponent,
+        StatsTableComponent
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatInputModule,
+        MatSelectModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatDividerModule,
+        MatProgressBarModule,
+        HttpClientModule,
+        MatTableModule,
+        MatRippleModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        NgxChartsModule,
+        MatSlideToggleModule,
+        MatTableResponsiveModule,
+        SharedModule,
+        DatePipe,
+        ColorSchemeSelectorComponent,
+        NumberCardsComponent
+    ]
 })
 export class AppModule { }
