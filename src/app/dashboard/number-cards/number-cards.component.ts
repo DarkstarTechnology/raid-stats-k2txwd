@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DashboardService } from '../dashboard.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ChartBaseComponent } from '../chart-base/chart-base.component';
+import { ChartBaseComponent } from '../../shared/chart-base/chart-base.component';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -10,7 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [NgxChartsModule],
   templateUrl: './number-cards.component.html',
 })
-export class NumberCardsComponent extends ChartBaseComponent implements OnInit { 
+export class NumberCardsComponent extends ChartBaseComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {
     super();
   }
@@ -35,7 +35,7 @@ export class NumberCardsComponent extends ChartBaseComponent implements OnInit {
       const oldestRaidVar = new Date(result[0].oldest_raid_date);
       this.oldestRaid = this.formatDateFromUnixTimestamp(oldestRaidVar.getTime()) ?? '';
       this.calculateChartData();
-      
+
   });
 }
 

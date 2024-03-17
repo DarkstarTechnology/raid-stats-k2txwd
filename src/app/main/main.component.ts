@@ -27,16 +27,16 @@ export class MainComponent {
       route: '/dashboard',
     },
     {
-      title: 'Processor',
-      icon: 'memory',
-      route: '/processor',
+      title: 'Alliance',
+      icon: 'group_work',
+      route: '/alliance',
     },
     {
       title: 'Players',
       icon: 'people',
       route: '/player'
     },
-    
+
   ];
 
   constructor(private router: Router) {}

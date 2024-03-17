@@ -18,7 +18,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormsModule } from '@angular/forms';
-import { MatDividerModule } from '@angular/material/divider';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -34,20 +33,16 @@ import { DatePipe } from '@angular/common';
 import { StatsTableComponent } from './player/stats-table/stats-table.component';
 import { SharedModule } from './shared/shared.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-
-/* export function initData(playerDataInit: PlayerDataInitService) {
-  return () => {
-     return inject(PlayerDataInitService).observable.pipe(a);
-  };
-} */
+import { AllianceModule } from './alliance/alliance.module';
 
 @NgModule({
     declarations: [
         AppComponent,
         MainComponent,
         PlayerDialogComponent,
-        StatsTableComponent
-    ],
+        StatsTableComponent,
+
+   ],
     providers: [],
     bootstrap: [AppComponent],
     imports: [
@@ -65,8 +60,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
         MatSelectModule,
         ReactiveFormsModule,
         FormsModule,
-        
-        
+
+
         HttpClientModule,
         MatTableModule,
         MatRippleModule,
@@ -75,11 +70,12 @@ import { DashboardModule } from './dashboard/dashboard.module';
         MatDialogModule,
         MatProgressSpinnerModule,
         NgxChartsModule,
-     
-       
+
+
         SharedModule,
         DatePipe,
-        DashboardModule
+        DashboardModule,
+        AllianceModule
     ]
 })
 export class AppModule { }

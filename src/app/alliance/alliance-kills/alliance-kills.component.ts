@@ -1,22 +1,25 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { ChartBaseComponent } from '../chart-base/chart-base.component';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChartBaseComponent } from '../../shared/chart-base/chart-base.component';
 import { LegendPosition, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
-import { DashboardService } from '../dashboard.service';
+import { DashboardService } from '../../dashboard/dashboard.service';
 import * as d3 from 'd3';
 import { takeUntil } from 'rxjs';
+import { AllianceService } from '../alliance.service';
 
 @Component({
   selector: 'app-alliance-kills',
   standalone: true,
   imports: [NgxChartsModule],
   templateUrl: './alliance-kills.component.html',
- 
+
 })
 export class AllianceKillsComponent extends ChartBaseComponent implements OnInit {
-  constructor(private dashboardService: DashboardService) {
+
+  private allianceService = inject(AllianceService);
+  constructor() {
     super();
   }
- 
+
   cards: any; // Update with the correct type
   isLoading = true;
 
@@ -38,18 +41,16 @@ export class AllianceKillsComponent extends ChartBaseComponent implements OnInit
   }as Intl.DateTimeFormatOptions) ;
   xAxisTickFormatting = (value) => {
     const date = new Date(value);
-    
+
     const shortUTCDate = this.shortDate.format(date);
     return shortUTCDate;
   };
   ngOnInit(): void {
-    this.dashboardService.dailyAllianceStatsResult$.subscribe((result) => {
+    this.allianceService.dailyAllianceStatsResult$.subscribe((result) => {
       this.lineChartData = result.data;
-      
+
   });
-  this.dashboardService.selectedScheme$.pipe(takeUntil(this.destroy$)).subscribe((scheme) => {
-    this.scheme = scheme;
-  } );
+  
 
   }
 }

@@ -5,7 +5,7 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <mat-list-item 
+      <mat-list-item
       (click)="navigate(item.route)"
       *ngFor="let item of navItems">
         <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
@@ -25,6 +25,8 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>KOTD Raid Stats</span>
+      <span class="toolbar-spacer"></span>
+      <app-color-scheme-selector></app-color-scheme-selector>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
