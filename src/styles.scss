@@ -26,7 +26,10 @@ body { margin: 0; font-family: Cabin, "Helvetica Neue", sans-serif; }
   margin-right: 0;
 }
 
-
+.chart-card-container {
+  margin: 8px;
+  display: inline-block;
+}
 
 // Function to generate a custom color palette around a base color
 // Manually defined color shades for a custom palette

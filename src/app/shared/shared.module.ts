@@ -6,17 +6,17 @@ import { NavigationDirective } from './directives/navigation.directive';
 import { ColorSchemeSelectorComponent } from './color-scheme-selector.component';
 import { ChartBaseComponent } from './chart-base/chart-base.component';
 import { ColorService } from './color.service';
-
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
   declarations: [NavigationDirective],
   imports: [
-    CommonModule, MatTableResponsiveModule,ColorSchemeSelectorComponent, ChartBaseComponent
+    CommonModule, MatTableResponsiveModule,ColorSchemeSelectorComponent, ChartBaseComponent, MatIconModule
   ],
   providers: [
     ColorService
   ],
-  exports: [MatTableResponsiveDirective, NavigationDirective, ColorSchemeSelectorComponent, ChartBaseComponent]
+  exports: [MatTableResponsiveDirective, NavigationDirective, ColorSchemeSelectorComponent, ChartBaseComponent, MatIconModule]
 })
 export class SharedModule { }

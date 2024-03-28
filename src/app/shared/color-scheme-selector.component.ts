@@ -1,5 +1,5 @@
-import { KeyValuePipe, NgForOf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { KeyValuePipe, AsyncPipe, NgForOf } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectChange, MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -11,11 +11,13 @@ import { ColorService } from './color.service';
   selector: 'app-color-scheme-selector',
   standalone: true,
   imports: [
-    FormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, KeyValuePipe, NgForOf
+    FormsModule, MatFormFieldModule, MatSelectModule, MatInputModule, AsyncPipe, KeyValuePipe, NgForOf
   ],
   template: `<mat-form-field appearance="fill">
   <mat-label>Choose a Color Scheme</mat-label>
-  <mat-select (selectionChange)="onSelected($event)" [(ngModel)]="selectedColorScheme">
+  <mat-select 
+    (ngModelChange)="onSelected($event)" 
+    [ngModel]="selectedColor$ | async">
     <mat-option *ngFor="let scheme of schemeOptions" [value]="scheme">{{ scheme }}</mat-option>
 </mat-select>
 </mat-form-field>`
@@ -28,10 +30,11 @@ export class ColorSchemeSelectorComponent {
   public ColorSchemeMapping = ColorSchemeMapping;
   private colorService = inject(ColorService);
   onSelected(event: MatSelectChange) {
-    const selectedValue = event.value;
-    this.colorService.colorSchemeSelected(selectedValue);
+    const selectedValue = event;
+    this.colorService.colorSelected(selectedValue.toString());
   }
-
+  readonly selectedColor$ = this.colorService.colorSelected$;
+ 
   enumToArray(enumObject): string[] {
     return Object.keys(enumObject)
       .map(key => enumObject[key]);

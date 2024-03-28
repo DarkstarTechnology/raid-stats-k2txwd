@@ -1,4 +1,13 @@
-<app-alliance-kills [colorScheme]="colorScheme()"></app-alliance-kills>
+<mat-form-field>
+    <select matNativeControl (change)="onSelected($event)">
+        <option *ngFor="let alliance of alliances()" [selected]="selectedAlliance === alliance.id" [value]="alliance.id">
+            {{ alliance.label}}
+        </option>
+    </select>
+</mat-form-field>
+
+<app-alliance-kills 
+    [colorScheme]="selectedColor$ | async"></app-alliance-kills>
 <app-peak-alliance-hours
 [showLegend]="true"
 [xAxisLabel]="peakAllianceChart.xAxisTitle"
@@ -6,5 +15,6 @@
 [legendTitle]="peakAllianceChart.legendTitle"
 [showXAxisLabel]="peakAllianceChart.showXAxisLabel"
 [showYAxisLabel]="peakAllianceChart.showYAxisLabel"
-[colorScheme]="colorScheme()">
+[colorScheme]="selectedColor$ | async">
 </app-peak-alliance-hours>
+<app-alliance-pie-chart></app-alliance-pie-chart>

@@ -7,6 +7,7 @@ export interface Alliance {
   tertiary: race[];
   first_raid_date: number;
   id: number;
+  label: string;
 }
 export interface AllianceInput {
   primary: race[];
@@ -203,6 +204,12 @@ export const tables = {
   raid,
 }
 
+export interface DateChartSeries {
+    name: string;
+    series: DateKvp[];
+
+}
+
 export interface ChartSeries {
     name: string;
     series: Kvp[];
@@ -211,6 +218,11 @@ export interface ChartSeries {
 export interface Kvp {
     name: string;
     value: number;
+}
+
+export interface DateKvp {
+  name: Date;
+  value: number;
 }
 
 export interface NavItem {
@@ -278,3 +290,10 @@ export const ColorSchemeMapping: Record<ColorScheme, string> = {
   [ColorScheme.NIGHT]: 'night',
   [ColorScheme.NIGHTLIGHTS]: 'nightLights'
 };
+
+export interface RaceFilter {
+   label: string;
+   value: string;
+   icon?: string;
+   selected: boolean;
+}

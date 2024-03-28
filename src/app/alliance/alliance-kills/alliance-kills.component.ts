@@ -1,27 +1,28 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ChartBaseComponent } from '../../shared/chart-base/chart-base.component';
 import { LegendPosition, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
-import { DashboardService } from '../../dashboard/dashboard.service';
-import * as d3 from 'd3';
-import { takeUntil } from 'rxjs';
 import { AllianceService } from '../alliance.service';
+import { ColorService } from 'src/app/shared/color.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-alliance-kills',
   standalone: true,
-  imports: [NgxChartsModule],
+  imports: [NgxChartsModule, MatCardModule],
   templateUrl: './alliance-kills.component.html',
-
+  styles: [`::ng-deep .ngx-charts { text{fill: #fff!important; }} 
+  
+  .line-chart-container { padding-bottom: 42px; overflow-x: auto; } `]
+ 
 })
-export class AllianceKillsComponent extends ChartBaseComponent implements OnInit {
-
+export class AllianceKillsComponent extends ChartBaseComponent {
+  private colorService = inject(ColorService);
   private allianceService = inject(AllianceService);
   constructor() {
     super();
   }
-
-  cards: any; // Update with the correct type
-  isLoading = true;
+  dailyAllianceStats = this.allianceService.dailyAllianceStatsFiltered;
+ 
 
   view: [number, number] = [350, 350];
   // options
@@ -32,25 +33,20 @@ export class AllianceKillsComponent extends ChartBaseComponent implements OnInit
   override schemeType: ScaleType = ScaleType.Ordinal;
 
   lineChartView: [number, number] = [700, 300];
-  curve = d3.curveCatmullRom;
+  override timeline: boolean = false;
+  maxXAxisTickLength: number = 8;
 
-  scheme: string = 'vivid';
-  roundDomains = true;
+  readonly selectedColor$ = this.colorService.colorSelected$;
+  roundDomains = false;
   shortDate = new Intl.DateTimeFormat("en", {
-    dateStyle: "short"
+    dateStyle: "long"
   }as Intl.DateTimeFormatOptions) ;
+
   xAxisTickFormatting = (value) => {
     const date = new Date(value);
 
     const shortUTCDate = this.shortDate.format(date);
-    return shortUTCDate;
+    return date.toLocaleDateString('en-US', {month: '2-digit', day: '2-digit'});
   };
-  ngOnInit(): void {
-    this.allianceService.dailyAllianceStatsResult$.subscribe((result) => {
-      this.lineChartData = result.data;
 
-  });
-  
-
-  }
 }

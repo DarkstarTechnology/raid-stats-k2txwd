@@ -1,4 +1,4 @@
-import { NgModule, inject } from '@angular/core';
+import { APP_INITIALIZER, NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -34,16 +34,33 @@ import { StatsTableComponent } from './player/stats-table/stats-table.component'
 import { SharedModule } from './shared/shared.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AllianceModule } from './alliance/alliance.module';
+import { IconService } from './shared/icon.service';
+import { MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS, MatButtonToggleModule } from '@angular/material/button-toggle';
 
+export function initializeIcons(iconService: IconService) {
+    return (): void => {
+      iconService.registerIcons();
+    };
+  }
 @NgModule({
     declarations: [
         AppComponent,
         MainComponent,
         PlayerDialogComponent,
         StatsTableComponent,
-
    ],
-    providers: [],
+    providers: [
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeIcons,
+            deps: [IconService],
+            multi: true
+        },
+        {
+            provide: MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS,
+            useValue: { hideMultipleSelectionIndicator: true }
+        }
+    ],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
@@ -54,14 +71,12 @@ import { AllianceModule } from './alliance/alliance.module';
         MatSidenavModule,
         MatIconModule,
         MatListModule,
-       MatCardModule,
+        MatCardModule,
         MatMenuModule,
         MatInputModule,
         MatSelectModule,
         ReactiveFormsModule,
         FormsModule,
-
-
         HttpClientModule,
         MatTableModule,
         MatRippleModule,
@@ -70,12 +85,11 @@ import { AllianceModule } from './alliance/alliance.module';
         MatDialogModule,
         MatProgressSpinnerModule,
         NgxChartsModule,
-
-
         SharedModule,
         DatePipe,
         DashboardModule,
-        AllianceModule
+        AllianceModule,
+        MatButtonToggleModule
     ]
 })
 export class AppModule { }

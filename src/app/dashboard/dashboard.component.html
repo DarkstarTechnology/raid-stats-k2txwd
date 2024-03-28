@@ -8,19 +8,15 @@
 
     <mat-card-content class="dashboard-card-content">
 
-      <app-number-cards [colorScheme]="colorScheme"></app-number-cards>
-      <div class="spacer"></div>
-      <mat-divider></mat-divider>
-
-      <div class="spacer"></div>
-      <mat-divider></mat-divider>
-     
+      <app-number-cards [colorScheme]="selectedColor$ | async"></app-number-cards>
+      
     </mat-card-content>
     <mat-card-actions>
       <button mat-button
-              appNavigate="/processor">Processor</button>
+              appNavigate="/alliance">Alliances</button>
       <button mat-button
               appNavigate="/player">Players</button>
+              <a mat-button href="https://slampisko.github.io/active-bosses/" target="_blank">Slam's Active Boss List</a>
     </mat-card-actions>
   </mat-card>
 </div>

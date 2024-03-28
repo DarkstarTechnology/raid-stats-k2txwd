@@ -1,16 +1,30 @@
-<ngx-charts-bar-vertical-2d
-  [view]="chartView"
-  [scheme]="scheme"
-  [results]="peakAllianceHours()"
-  [gradient]="gradient"
-  [legend]="showLegend"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxis]="showXAxis"
-  [yAxis]="showYAxis"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [legendTitle]="legendTitle"
-  [xAxisTickFormatting]="xAxisTickFormatting"
- >
-</ngx-charts-bar-vertical-2d>
+<div class="chart-card-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Peak Alliance Hours</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ngx-charts-bar-vertical-2d
+      [view]="chartView"
+      [scheme]="selectedColor$ | async"
+      [results]="peakAllianceHours()"
+      [gradient]="gradient"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [legendTitle]="legendTitle"
+      [xAxisTickFormatting]="xAxisTickFormatting"
+     >
+     <ng-template #tooltipTemplate let-model="model">
+      <p>{{model.name}}</p>
+      <p>{{model.value}}</p>
+     </ng-template>
+     
+    </ngx-charts-bar-vertical-2d>
+    </mat-card-content>
+  </mat-card>
+</div>

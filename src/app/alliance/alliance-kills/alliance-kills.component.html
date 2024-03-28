@@ -1,24 +1,32 @@
-<div class="line-chart-container">
-    <ngx-charts-line-chart
-      [view]="lineChartView"
-      [scheme]="scheme"
-      [schemeType]="schemeType"
-      [curve]="curve"
-      [showGridLines]="showGridLines"
-      [legend]="legend"
-      [legendPosition]="legendPosition"
-      [legendTitle]="legendTitle"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxis]="xAxis"
-      [yAxis]="yAxis"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [timeline]="timeline"
-      [results]="lineChartData"
-      [xAxisTickFormatting]="xAxisTickFormatting"
-      [roundDomains]="roundDomains"
-     
-    >
-    </ngx-charts-line-chart>
-  </div>
+<div class="chart-card-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Alliance Kills</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="line-chart-container">
+        <ngx-charts-line-chart 
+          [view]="lineChartView"
+          [scheme]="selectedColor$ | async"
+          [schemeType]="schemeType"
+          [showGridLines]="showGridLines"
+          [legend]="legend"
+          [legendPosition]="legendPosition"
+          [legendTitle]="legendTitle"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxis]="xAxis"
+          [yAxis]="yAxis"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [timeline]="timeline"
+          [results]="dailyAllianceStats()"
+          [maxXAxisTickLength]="maxXAxisTickLength"
+         [xAxisTickFormatting]="xAxisTickFormatting"
+          [roundDomains]="roundDomains">
+        </ngx-charts-line-chart>
+      </div>
+      <div class="spacer"></div>
+    </mat-card-content>
+  </mat-card>
+</div>

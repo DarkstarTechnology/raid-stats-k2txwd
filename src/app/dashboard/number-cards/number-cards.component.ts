@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { DashboardService } from '../dashboard.service';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ChartBaseComponent } from '../../shared/chart-base/chart-base.component';
 import { Subject, takeUntil } from 'rxjs';
+import { ColorService } from 'src/app/shared/color.service';
 
 @Component({
   selector: 'app-number-cards',
@@ -11,6 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './number-cards.component.html',
 })
 export class NumberCardsComponent extends ChartBaseComponent implements OnInit {
+  private colorService = inject(ColorService);
   constructor(private dashboardService: DashboardService) {
     super();
   }
@@ -22,12 +24,9 @@ export class NumberCardsComponent extends ChartBaseComponent implements OnInit {
   avgRaidsPerDay: number;
   highestRaidsInDay: string;
   databaseStats$ = this.dashboardService.dbStatsResult$;
-  selectedColor = this.dashboardService.selectedColorScheme;
-  selectedScheme: string;
+  readonly selectedColor$ = this.colorService.colorSelected$;
   ngOnInit(): void {
-    this.dashboardService.selectedScheme$.pipe(takeUntil(this.destroy$)).subscribe((scheme) => {
-      this.selectedScheme = scheme;
-    } );
+    
     this.dashboardService.dbStatsResult$.pipe(takeUntil(this.destroy$)).subscribe((result) => {
       this.totalRaids = result[0].total_raids;
       this.totalPlayers = result[0].total_players;

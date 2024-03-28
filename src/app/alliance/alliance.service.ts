@@ -1,7 +1,7 @@
 import { Injectable, computed, inject } from '@angular/core';
 import { endpoints } from '../shared/endpoints';
-import { catchError, map, of, shareReplay, tap } from 'rxjs';
-import { ChartSeries, Kvp, PeakRaidHoursAlliance, Result } from '../shared/interfaces';
+import { BehaviorSubject, catchError, map, of, shareReplay, switchMap, tap } from 'rxjs';
+import { Alliance, ChartSeries, DateChartSeries, Kvp, PeakRaidHoursAlliance, Result } from '../shared/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorService } from '../utils/http-error.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -14,15 +14,109 @@ export class AllianceService {
   private http = inject(HttpClient);
   private errorService = inject(HttpErrorService);
   constructor() { }
-  dailyAllianceStatsResult$ = this.http.get<ChartSeries[]>(endpoints.ALLIANCE_DAILY_URL)
+
+  private allianceSelectedSubject = new BehaviorSubject<number>(197);
+  readonly allianceSelected$ = this.allianceSelectedSubject.asObservable();
+
+  alliancesResult$ = this.http.get<Alliance[]>(endpoints.ALLIANCE_URL)
   .pipe(
-    map(r => ({ data: r } as Result<ChartSeries[]>)),
+    map(r => ({ data: r } as Result<Alliance[]>)),
     shareReplay(1),
     catchError(err => of({
       data: [],
       error: this.errorService.formatError(err)
-    } as Result<ChartSeries[]>))
+    } as Result<Alliance[]>))
   );
+  private alliancesResult = toSignal(this.alliancesResult$, { initialValue: ({ data: [] } as Result<Alliance[]>) });
+  alliances = computed(() => this.alliancesResult().data);
+  alliancesError = computed(() => this.alliancesResult().error);
+
+  readonly totalAllianceStatsFilteredResult$ = this.allianceSelected$
+  .pipe(
+    switchMap(allianceId => {
+      const url = `${endpoints.ALLIANCE_TOTAL_URL}?alliance=${allianceId}`;
+      return this.http.get<Kvp[]>(url)
+      .pipe(
+        map(r => ({ data: r } as Result<Kvp[]>)),
+        catchError(err => of({
+          data: [],
+          error: this.errorService.formatError(err)
+        } as Result<Kvp[]>))
+      );
+    }),
+  );
+  private totalAllianceStatsFilteredResult = toSignal(this.totalAllianceStatsFilteredResult$, { initialValue: ({ data: [] } as Result<Kvp[]>) });
+  totalAllianceStatsFiltered = computed(() => this.totalAllianceStatsFilteredResult().data);
+  totalAllianceStatsFilteredError = computed(() => this.totalAllianceStatsFilteredResult().error);
+
+  readonly dailyAllianceStatsFilteredResult$ = this.allianceSelected$
+  .pipe(
+    switchMap(allianceId => {
+      const url = `${endpoints.ALLIANCE_DAILY_URL}?alliance=${allianceId}`;
+      return this.http.get<DateChartSeries[]>(url)
+      .pipe(
+        map(r => ({ data: r } as Result<DateChartSeries[]>)),
+        catchError(err => of({
+          data: [],
+          error: this.errorService.formatError(err)
+        } as Result<DateChartSeries[]>))
+      );
+    }),
+  );
+  private dailyAllianceStatsFilteredResult = toSignal(this.dailyAllianceStatsFilteredResult$, { initialValue: ({ data: [] } as Result<DateChartSeries[]>) });
+  dailyAllianceStatsFiltered = computed(() => this.dailyAllianceStatsFilteredResult().data);
+  dailyAllianceStatsFilteredError = computed(() => this.dailyAllianceStatsFilteredResult().error);
+
+  readonly peakRaidHoursAllianceFilteredResult$ = this.allianceSelected$
+  .pipe(
+    switchMap(allianceId => {
+      const url = `${endpoints.PEAK_RAID_HOURS_ALLIANCE_URL}?alliance=${allianceId}`;
+      return this.http.get<PeakRaidHoursAlliance[]>(url)
+      .pipe(
+        map(r => ({ data: r } as Result<PeakRaidHoursAlliance[]>)),
+        map(result => {
+          if (!result.data) {
+            return { data: undefined } as Result<ChartSeries[]>;
+          }
+          const transformedData = this.transformData(result.data);
+          return { data: transformedData } as Result<ChartSeries[]>;
+        }),
+        catchError(error => of({ data: [], error: this.errorService.formatError(error) } as Result<ChartSeries[]>))
+      );
+    }),
+  );
+  private peakRaidHoursAllianceFilteredResult = toSignal(this.peakRaidHoursAllianceFilteredResult$, { initialValue: ({ data: [] } as Result<ChartSeries[]>) });
+  peakRaidHoursAllianceFiltered = computed(() => this.peakRaidHoursAllianceFilteredResult().data);
+  peakRaidHoursAllianceFilteredError = computed(() => this.peakRaidHoursAllianceFilteredResult().error);
+  
+
+  totalAllianceStatsResult$ = this.http.get<Kvp[]>(endpoints.ALLIANCE_TOTAL_URL)
+  .pipe(
+    map(r => ({ data: r } as Result<Kvp[]>)),
+    shareReplay(1),
+    catchError(err => of({
+      data: [],
+      error: this.errorService.formatError(err)
+    } as Result<Kvp[]>))
+  );
+
+  private totalAllianceStatsResult = toSignal(this.totalAllianceStatsResult$, { initialValue: ({ data: [] } as Result<Kvp[]>) });
+  totalAllianceStats = computed(() => this.totalAllianceStatsResult().data);
+  totalAllianceStatsError = computed(() => this.totalAllianceStatsResult().error);
+  
+  dailyAllianceStatsResult$ = this.http.get<DateChartSeries[]>(endpoints.ALLIANCE_DAILY_URL)
+  .pipe(
+    map(r => ({ data: r } as Result<DateChartSeries[]>)),
+    shareReplay(1),
+    catchError(err => of({
+      data: [],
+      error: this.errorService.formatError(err)
+    } as Result<DateChartSeries[]>))
+  );
+
+  private dailyAllianceStatsResult = toSignal(this.dailyAllianceStatsResult$, { initialValue: ({ data: [] } as Result<DateChartSeries[]>) });
+  dailyAllianceStats = computed(() => this.dailyAllianceStatsResult().data);
+  dailyAllianceStatsError = computed(() => this.dailyAllianceStatsResult().error);
  
   xAxisMap = {
     1710028800: 'Morning',
@@ -84,6 +178,10 @@ export class AllianceService {
     }));
     console.log('returnVal', returnVal);
     return returnVal;
+  }
+
+  allianceSelected(allianceId: number) {
+    this.allianceSelectedSubject.next(allianceId);
   }
 }
 const morning = 1710028800;

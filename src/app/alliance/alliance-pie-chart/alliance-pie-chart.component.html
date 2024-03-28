@@ -1,0 +1,22 @@
+<div class="chart-card-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Alliance Total Kills</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="pie-chart-container">
+                <ngx-charts-pie-chart
+                     [view]="view" 
+                     [scheme]="selectedColor$ | async" 
+                     [results]="totalAllianceStats()" 
+                     [legend]="legend" 
+                     [legendTitle]="legendTitle" 
+                     [labels]="showLabels" 
+                     [gradient]="gradient" 
+                     [animations]="animations">
+                </ngx-charts-pie-chart>
+            </div>
+            <div class="spacer"></div>
+        </mat-card-content>
+    </mat-card>
+</div>

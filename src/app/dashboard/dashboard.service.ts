@@ -1,10 +1,9 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { catchError, map, of, shareReplay, ReplaySubject, tap, groupBy, mergeMap, reduce, BehaviorSubject } from 'rxjs';
+import { Injectable, inject, signal } from '@angular/core';
+import { shareReplay, BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorService } from '../utils/http-error.service';
 import { endpoints } from '../shared/endpoints';
-import { DataStats, ChartSeries, Result, PeakRaidHoursAlliance, Kvp, ColorScheme } from '../shared/interfaces';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { DataStats } from '../shared/interfaces';
 
 
 

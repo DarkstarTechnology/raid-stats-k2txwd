@@ -4,6 +4,7 @@ const PIR_URL = `${BASE_URL}playerInRaid`;
 const ALLIANCE_URL = `${BASE_URL}alliance`;
 const RAID_URL = `${BASE_URL}raid`;
 const ALLIANCE_DAILY_URL = `${ALLIANCE_URL}/daily`;
+const ALLIANCE_TOTAL_URL = `${ALLIANCE_URL}/total`;
 const PLAYER_STATS_URL = `${BASE_URL}playerStats`;
 const DB_STATS_URL = `${BASE_URL}databaseStats`;
 const PEAK_RAID_HOURS_URL = `${BASE_URL}peakRaidHours`;
@@ -14,6 +15,7 @@ export const endpoints = {
   ALLIANCE_URL,
   RAID_URL,
   ALLIANCE_DAILY_URL,
+  ALLIANCE_TOTAL_URL,
   PLAYER_STATS_URL,
   DB_STATS_URL,
   PEAK_RAID_HOURS_URL,

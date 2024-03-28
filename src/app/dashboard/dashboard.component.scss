@@ -26,7 +26,11 @@
   }
 }
 
-
+::ng-deep .ngx-charts { 
+  text{
+      fill: #fff!important; 
+  }
+}
 
 .more-button {
   position: absolute;

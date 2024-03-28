@@ -5,7 +5,17 @@
             GitHub's API rate limit has been reached. It will be reset in one minute.
         </div>
     </div>
-    
+   <!--  <div class="race-filters">
+        <mat-button-toggle-group name="race-toggles" multiple>
+            <mat-button-toggle (change)="toggleRaceFilter('dragon')" [checked]="dragonSelected"><mat-icon  color="primary" svgIcon="dragon"></mat-icon></mat-button-toggle>
+            <mat-button-toggle (change)="toggleRaceFilter('plant')" [checked]="plantSelected"><mat-icon  color="primary" svgIcon="plant"></mat-icon></mat-button-toggle>
+            <mat-button-toggle (change)="toggleRaceFilter('demon')" [checked]="demonSelected"><mat-icon  color="primary" svgIcon="demon"></mat-icon></mat-button-toggle>
+            <mat-button-toggle (change)="toggleRaceFilter('gnome')" [checked]="gnomeSelected"><mat-icon  color="primary" svgIcon="gnome"></mat-icon></mat-button-toggle>
+            <mat-button-toggle (change)="toggleRaceFilter('undead')" [checked]="undeadSelected"><mat-icon  color="primary" svgIcon="undead"></mat-icon></mat-button-toggle>
+            <mat-button-toggle (change)="toggleRaceFilter('kobold')" [checked]="koboldSelected"><mat-icon  color="primary" svgIcon="kobold"></mat-icon></mat-button-toggle>
+            <mat-button-toggle (change)="toggleRaceFilter('troll')" [checked]="trollSelected"><mat-icon  color="primary" svgIcon="troll"></mat-icon></mat-button-toggle>
+        </mat-button-toggle-group>
+    </div> -->
     <div class="stats-table-container">
 
         <table mat-table [dataSource]="data" class="stats-table" matSort matSortActive="name" matSortDisableClear
